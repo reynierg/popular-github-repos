@@ -24,10 +24,18 @@ ENV PATH="$VIRTUALENV/bin:$PATH"
 
 # install python dependencies
 COPY --chown=$USERNAME requirements.txt requirements-dev.txt ./
-RUN pip install --upgrade pip setuptools \
-  && pip install --no-cache-dir -r requirements-dev.txt
+RUN pip install --upgrade pip setuptools && \
+    pip install --no-cache-dir -r requirements-dev.txt
 
 # add app
 COPY --chown=$USERNAME . .
+
+RUN python -m pytest tests/ && \
+    python -m flake8 app/ tests && \
+    python -m isort app/ tests/ --check && \
+    python -m black app/ --check && \
+    python -m pylint app/ --disable=C0114,C0115,C0116 && \
+    python -m bandit -r app/
+
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000"]
