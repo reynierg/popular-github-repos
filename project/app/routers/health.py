@@ -11,10 +11,7 @@ class HealthSchema(BaseModel):
     testing: bool = Field(title="If tests are being executed or not")
 
 
-router = APIRouter(
-    prefix="/health",
-    tags=["HealthCheck"]
-)
+router = APIRouter(prefix="/health", tags=["HealthCheck"])
 
 
 @router.get("", response_model=HealthSchema)
@@ -22,5 +19,5 @@ def health_check(settings: Settings = Depends(get_settings)) -> dict:
     return {
         "health": True,
         "environment": settings.environment,
-        "testing": settings.testing
+        "testing": settings.testing,
     }
