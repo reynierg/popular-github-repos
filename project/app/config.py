@@ -4,10 +4,10 @@ from pydantic import BaseSettings
 
 
 class EnvironmentEnum(str, Enum):
-    dev = 'dev'
-    prod = 'prod'
+    DEV = "dev"
+    PROD = "prod"
 
 
 class Settings(BaseSettings):
-    environment: EnvironmentEnum = EnvironmentEnum.dev
+    environment: EnvironmentEnum = EnvironmentEnum.DEV
     testing: bool = False

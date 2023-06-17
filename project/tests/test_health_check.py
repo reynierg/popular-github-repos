@@ -11,4 +11,4 @@ def test_health_check(http_client):
     """
     response = http_client.get("/api/health")
     assert response.status_code == status.HTTP_200_OK
-    assert response.json() == {"environment": EnvironmentEnum.dev, "testing": True, "health": True}
+    assert response.json() == {"environment": EnvironmentEnum.DEV, "testing": True, "health": True}
