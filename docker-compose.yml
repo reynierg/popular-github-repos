@@ -1,0 +1,10 @@
+services:
+  repos-web-service:
+    build: ./project
+    ports:
+      - "80:5000"
+    networks:
+      - backend-network
+
+networks:
+    backend-network:
