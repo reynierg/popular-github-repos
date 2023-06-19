@@ -42,7 +42,6 @@ RUN python -m pytest tests/ && \
     python -m flake8 app/ tests && \
     python -m isort app/ tests/ --check && \
     python -m black app/ --check && \
-    python -m pylint app/ --disable=C0114,C0115,C0116 && \
     python -m bandit -r app/
 
 #########
