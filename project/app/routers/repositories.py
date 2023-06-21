@@ -32,26 +32,16 @@ async def search_repositories(
             description="Index of the page to fetch with repositories data",
         ),
     ] = None,
-    from_date: t.Annotated[
+    q: t.Annotated[
         str,
         Query(
-            title="Lower bound date",
-            description="Lower bound date for returned repositories",
-            regex=r"^\d{4}-\d{2}-\d{2}$",
-        ),
-    ] = None,
-    language: t.Annotated[
-        str,
-        Query(
-            title="Language of the repositories",
-            description="Language of the repositories to be returned",
+            title="Repositories query",
+            description="Repositories query to be send to the GitHub's repositories search API",
         ),
     ] = None,
     github_client: GithubClient = Depends(get_github_client),
 ) -> dict:
-    payload, headers = await github_client.get_repositories(
-        per_page, page, from_date, language
-    )
+    payload, headers = await github_client.get_repositories(per_page, page, q)
     link_header: str | None = headers.get("link")
     if link_header:
         base_url = f"{request.url.scheme}://{request.url.netloc}{request.url.path}"
