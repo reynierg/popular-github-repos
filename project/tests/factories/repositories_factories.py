@@ -84,6 +84,10 @@ class RepositorySummaryFactory(factory.DictFactory):
 class RepositoriesFactory(factory.DictFactory):
     total_count = factory.Faker("pyint", min_value=0, max_value=10000000)
     incomplete_results = True
+    pagination = {
+        "prev": None,
+        "next": None
+    }
 
     @factory.post_generation
     def items(obj, create, extracted, **kwargs):
