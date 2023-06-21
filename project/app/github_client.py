@@ -1,5 +1,4 @@
 import typing as t
-from io import StringIO
 
 from httpx import AsyncClient
 
@@ -7,9 +6,7 @@ from httpx import AsyncClient
 class GithubClient:
     def __init__(self, async_client: AsyncClient):
         self._async_client = async_client
-        self._base_search_url = (
-            "https://api.github.com/search/repositories?sort=stars&order=desc"
-        )
+        self._base_search_url = "https://api.github.com/search/repositories"
         self._default_language = "Python"
         # GitHub's search API, configurable MAX page's size is 100 records.
         self._max_allowed_page_size = 100
@@ -31,9 +28,6 @@ class GithubClient:
         Retrieves from the GitHub's API a page of repositories, with per_page records.
         According to the requirements, it is ONLY allowed, to specify to retrieve 10 OR 30 OR 50 repositories per page.
         """
-        url_string_io: StringIO = StringIO()
-        url_string_io.write(self._base_search_url)
-
         page_size = int(per_page)
         if page_size > self._default_page_size:
             # The API is being called to retrieve more than the 30 repositories per page,
@@ -45,23 +39,19 @@ class GithubClient:
             # 1 <= page_size <= 30:
             page_size = max(1, page_size)
 
-        # Adjust properly the "per_page" query's string, to get at most, the amount of repositories requested,
-        # in a single call, from the GitHub's search API:
-        url_string_io.write(f"&per_page={page_size}")
+        params = {"sort": "stars", "order": "desc", "per_page": page_size}
+
         if page is not None:
-            url_string_io.write(f"&page={page}")
+            params["page"] = page
 
-        if from_date and language:
-            url_string_io.write(f"&q=created:>={from_date}+language:{language}")
-        elif from_date:
-            url_string_io.write(f"&q=created:>={from_date}")
-        elif language:
-            url_string_io.write(f"&q=language:{language}")
-        else:
-            # If no programming language was specified, "Python" will be used as default language:
-            url_string_io.write(f"&q=language:{self._default_language}")
+        # If no programming language was specified, "Python" will be used as default language:
+        language_filter = (
+            f"language:{language if language is not None else self._default_language}"
+        )
+        params[
+            "q"
+        ] = f"{language_filter}{f'+created:>{from_date}' if from_date else ''}"
 
-        url: str = url_string_io.getvalue()
-        response = await self._async_client.get(url)
+        response = await self._async_client.get(self._base_search_url, params=params)
         response.raise_for_status()
         return response.json(), dict(response.headers)
