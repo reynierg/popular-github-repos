@@ -17,8 +17,8 @@ async def test_github_client_should_return_10_repos_with_python_language(httpx_m
 
     async with httpx.AsyncClient() as http_client:
         gh_client = GithubClient(http_client)
-        url = f"{gh_client.base_search_url}?sort=stars&order=desc&per_page={per_page}&q=language:{language}"
+        url = f"{gh_client.BASE_SEARCH_URL}?sort=stars&order=desc&per_page={per_page}&q=language:{language}"
         httpx_mock.add_response(url=url, json=expected_repositories_data)
-        response_payload, _ = await gh_client.get_repositories(f"{per_page}", None, None, language)
+        response_payload, _ = await gh_client.get_repositories(f"{per_page}", None, f"language:{language}")
 
     assert response_payload == expected_repositories_data
