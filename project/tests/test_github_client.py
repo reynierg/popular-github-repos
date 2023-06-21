@@ -5,11 +5,11 @@ from app.github_client import GithubClient
 
 
 @pytest.mark.asyncio
-async def test_github_client_should_return_10_repos_of_python_language(httpx_mock, repositories_factory):
-    amount = 10
+async def test_github_client_should_return_10_repos_with_python_language(httpx_mock, repositories_factory):
+    per_page = 10
     language = "Python"
 
-    expected_repositories_data = repositories_factory(amounts=amount)
+    expected_repositories_data = repositories_factory(amounts=per_page)
     for repo in expected_repositories_data["items"]:
         repo["language"] = language
 
@@ -17,8 +17,8 @@ async def test_github_client_should_return_10_repos_of_python_language(httpx_moc
 
     async with httpx.AsyncClient() as http_client:
         gh_client = GithubClient(http_client)
-        url = f"{gh_client.base_search_url}&per_page={amount}&q=language:{language}"
+        url = f"{gh_client.base_search_url}&per_page={per_page}&q=language:{language}"
         httpx_mock.add_response(url=url, json=expected_repositories_data)
-        response_payload = await gh_client.get_repositories(f"{amount}", None, language)
+        response_payload, _ = await gh_client.get_repositories(f"{per_page}", None, None, language)
 
     assert response_payload == expected_repositories_data
