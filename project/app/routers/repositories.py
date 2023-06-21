@@ -1,11 +1,10 @@
 import typing as t
 
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, Depends, Query
 
-from app.dependencies import get_github_client
-from app.github_client import GithubClient
+from app.dependencies import get_repositories_service
+from app.repositories_service import RepositoriesService
 from app.schemas import RepositorySummaryListSchema
-from app.utils import build_pagination_links
 
 router = APIRouter(prefix="/repositories", tags=["Repositories"])
 
@@ -16,7 +15,6 @@ router = APIRouter(prefix="/repositories", tags=["Repositories"])
     name="repositories:search-repositories",
 )
 async def search_repositories(
-    request: Request,
     per_page: t.Annotated[
         str,
         Query(
@@ -39,15 +37,6 @@ async def search_repositories(
             description="Repositories query to be send to the GitHub's repositories search API",
         ),
     ] = None,
-    github_client: GithubClient = Depends(get_github_client),
+    repositories_service: RepositoriesService = Depends(get_repositories_service),
 ) -> dict:
-    payload, headers = await github_client.get_repositories(per_page, page, q)
-    link_header: str | None = headers.get("link")
-    if link_header:
-        base_url = f"{request.url.scheme}://{request.url.netloc}{request.url.path}"
-        pagination = build_pagination_links(link_header, base_url)
-    else:
-        pagination = {"prev": None, "next": None}
-
-    payload.update({"pagination": pagination})
-    return payload
+    return await repositories_service.get_repositories(per_page, page, q)
