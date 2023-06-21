@@ -26,9 +26,15 @@ class RepositorySummarySchema(BaseModel):
     license: LicenseSchema | None = Field(title="The repository's license")
 
 
+class PaginationSchema(BaseModel):
+    prev: str | None
+    next: str | None
+
+
 class RepositorySummaryListSchema(BaseModel):
     total_count: int = Field(title="The total count of repositories")
     incomplete_results: bool = Field(title="If the response is incomplete")
     items: list[RepositorySummarySchema] = Field(
         title="The data of the repositories in the response's payload"
     )
+    pagination: PaginationSchema
