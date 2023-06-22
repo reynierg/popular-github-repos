@@ -7,7 +7,6 @@ from app.redis import init_redis_pool
 from app.routers.health import router as health_router
 from app.routers.repositories import router as repositories_router
 
-
 API_PREFIX = "/api"
 
 
