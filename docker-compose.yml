@@ -20,8 +20,6 @@ services:
       - repos-redis-service
 
   repos-web-service:
-    env_file:
-      - ".env"
     build: ./project
     ports:
       - "80:5000"
