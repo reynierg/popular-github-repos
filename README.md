@@ -6,6 +6,7 @@
 - [DESCRIPTION](#description)
 - [SOLUTION](#solution)
 - [RUN](#run)
+- [RETRIEVE-REPOSITORIES](#retrieve-repositories)
 - [PAGINATION](#pagination)
 - [TROUBLESHOOTING](#troubleshooting)
 
@@ -70,6 +71,20 @@ Once you want to end the execution of the services being executed by Docker Comp
 make down
 ```
 command, to make sure to remove the containers from your hard disk. 
+
+# RETRIEVE-REPOSITORIES
+
+To acquire, through the GitHub Web API, the data of the most popular repositories, we can fill in the corresponding
+data in the form that appears in the OpenAPI interface, as shown below.</br>
+In the following example, we fill in the data to retrieve the **10 Python** repositories, **created after 2023-06-01**,
+with the **best rating (stars)**, sorted in **descending order**:
+
+![Getting 10 Python repositories](images/getting-10-most-popular-python-repos-created-after-a-date.png)
+
+By clicking on the blue button with the text "Execute", we will obtain a result similar to the one shown in the
+following image:
+
+![Getting 10 Python repositories](images/10-most-popular-python-repos-created-after-date.png)
 
 # PAGINATION
 
