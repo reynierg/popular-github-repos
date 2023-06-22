@@ -1,5 +1,6 @@
 # popular-github-repos
 [![Continuous Integration](https://github.com/reynierg/popular-github-repos/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/reynierg/popular-github-repos/actions/workflows/ci.yml)
+
 - [REQUIREMENTS](#requirements)  
 - [ARCHITECTURE](#architecture)
 - [DESCRIPTION](#description)
@@ -37,6 +38,7 @@ popular-github-repos is a system that facilitates a user the discovery of the mo
 - A CI pipeline was set up to ensure that, once a PR or a Merge is done, on GitHub, in both the **develop** and **main** branches, some tests are automatically run and the source code is analyzed using linters to comply with industry code standards. After a merge, if all is well, a Docker image created from a Multi-Stage Dockerfile will be a pushed to Docker Hub.
 
 # RUN
+
 
 After having cloned the source code, 
 ```
@@ -82,4 +84,3 @@ modifiquelos en el fichero **docker-compose.yml**, on lines #16 and #25 respecti
 ```
 make up
 ```
-
