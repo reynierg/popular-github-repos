@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.11.2-slim-buster AS builder
+FROM python:3.10-slim-buster AS builder
 
 # patch the image with the most recent security updates and bug fixes, which may have been
 # released since the image was published on Docker Hub:
@@ -42,14 +42,14 @@ RUN python -m pytest tests/ && \
     python -m flake8 app/ tests && \
     python -m isort app/ tests/ --check && \
     python -m black app/ --check && \
-    python -m bandit -r app/
+    python -m bandit -r app/ --quiet
 
 #########
 # FINAL #
 #########
 
 # pull official base image
-FROM python:3.11.2-slim-buster
+FROM python:3.10-slim-buster
 
 # patch the image with the most recent security updates and bug fixes, which may have been
 # released since the image was published on Docker Hub:
