@@ -1,8 +1,6 @@
 import random
-import string
 
 import factory
-from factory import fuzzy
 
 LICENSES_METADATA = {
     "apache-2.0": {
@@ -57,7 +55,7 @@ PROGRAMMING_LANGUAGES = [
 
 
 class OwnerFactory(factory.DictFactory):
-    id = fuzzy.FuzzyText(chars=string.digits, length=4)
+    id = factory.Faker("pyint")
     login = factory.Faker("user_name")
     type = factory.Faker("random_element", elements=["Organization", "User"])
 
@@ -69,7 +67,7 @@ class LicenseFactory(factory.DictFactory):
 
 
 class RepositorySummaryFactory(factory.DictFactory):
-    id = fuzzy.FuzzyText(chars=string.digits, length=4)
+    id = factory.Faker("pyint")
     license = factory.SubFactory(LicenseFactory)
     owner = factory.SubFactory(OwnerFactory)
     name = factory.Faker("pystr")
