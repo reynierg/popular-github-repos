@@ -3,14 +3,18 @@ import contextlib
 import httpx
 from fastapi import FastAPI
 
+from app.redis import init_redis_pool
 from app.routers.health import router as health_router
 from app.routers.repositories import router as repositories_router
 
 
+API_PREFIX = "/api"
+
+
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with httpx.AsyncClient() as client:
-        yield {"http_client": client}
+    async with httpx.AsyncClient() as http_client:
+        yield {"http_client": http_client, "redis_client": init_redis_pool()}
 
 
 def create_app() -> FastAPI:
@@ -23,6 +27,6 @@ def create_app() -> FastAPI:
         },
         lifespan=lifespan,
     )
-    app.include_router(health_router, prefix="/api")
-    app.include_router(repositories_router, prefix="/repositories")
+    app.include_router(health_router, prefix=API_PREFIX)
+    app.include_router(repositories_router, prefix=API_PREFIX)
     return app

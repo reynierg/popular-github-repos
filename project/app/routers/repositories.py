@@ -1,6 +1,6 @@
 import typing as t
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, Query
 
 from app.dependencies import get_repositories_service
 from app.repositories_service import RepositoriesService
@@ -15,6 +15,7 @@ router = APIRouter(prefix="/repositories", tags=["Repositories"])
     name="repositories:search-repositories",
 )
 async def search_repositories(
+    background_tasks: BackgroundTasks,
     per_page: t.Annotated[
         str,
         Query(
@@ -39,4 +40,6 @@ async def search_repositories(
     ] = None,
     repositories_service: RepositoriesService = Depends(get_repositories_service),
 ) -> dict:
-    return await repositories_service.get_repositories(per_page, page, q)
+    return await repositories_service.get_repositories(
+        per_page, page, q, background_tasks
+    )
