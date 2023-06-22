@@ -6,6 +6,7 @@
 - [DESCRIPTION](#description)
 - [SOLUTION](#solution)
 - [RUN](#run)
+- [PAGINATION](#pagination)
 - [TROUBLESHOOTING](#troubleshooting)
 
 # REQUIREMENTS
@@ -69,6 +70,20 @@ Once you want to end the execution of the services being executed by Docker Comp
 make down
 ```
 command, to make sure to remove the containers from your hard disk. 
+
+# PAGINATION
+
+Once the corresponding endpoint has been invoked to obtain a page with data from the repositories, in case the
+**status_code** received is **200**, we will receive in the response payload, the repositories' data, under the key
+named **items**, as well as metadata from where we can extract the URLs needed for either request the previous
+or the next page of data.
+The pagination metadata should appear towards the end of the response payload, under the key named "pagination",
+as can be seen in the image below.
+
+![Pagination](images/pagination_metadata.png)
+
+It is important to note, that under certain conditions, one of the two fields **prev** or **next**, or both, may
+contain a null value, which will depend on whether we have requested the first or the last page of data.
 
 # TROUBLESHOOTING
 
