@@ -1,9 +1,17 @@
 # popular-github-repos
 [![Continuous Integration](https://github.com/reynierg/popular-github-repos/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/reynierg/popular-github-repos/actions/workflows/ci.yml)
+
+- [REQUIREMENTS](#requirements)  
 - [ARCHITECTURE](#architecture)
 - [DESCRIPTION](#description)
 - [SOLUTION](#solution)
 - [RUN](#run)
+- [TROUBLESHOOTING](#troubleshooting)
+
+# REQUIREMENTS
+- Make
+- Docker
+- Docker compose
 
 # ARCHITECTURE
 
@@ -31,7 +39,48 @@ popular-github-repos is a system that facilitates a user the discovery of the mo
 
 # RUN
 
-After having cloned the source code, and CD in the root directory of the project, you can start the application by running in a terminal the command **make up**. After that all the services configured in Docker Compose will run, and you will be able to access the WebAPI, via the following URL:
-**http://0.0.0.0/docs**
+
+After having cloned the source code, 
+```
+git clone git@github.com:reynierg/popular-github-repos.git
+```
+and CD in the root directory of the project, 
+```
+CD popular-github-repos
+```
+you can start the application by running in a terminal the command
+```
+make up
+```
+After that all the services configured in Docker Compose will run, and you will be able to access the WebAPI, via the following URL:
+```
+http://0.0.0.0/docs
+```
 Where the API's OpeanAPI documentation can be inspected, and even the existing endpoint executed.
 Currently, the API does not require either log in with a username and password or providing a token in order to access the API.
+If you wish to check the data being cached in Redis, you can do so through the visual interface accessible at the following URL:
+```
+http://0.0.0.0:8081/
+```
+The username and password needed to log in can be obtained from the **docker-compose.yml** file.
+Or better yet, make sure you change the user and password in your local copy, in the **docker-compose.yml** file, in lines 13 and 14 of the file.
+Once you want to end the execution of the services running Docker Compose in the terminal, make sure to, after pressing **Ctrl + C**, run the 
+```
+make down
+```
+command, to make sure to remove the containers from your hard disk. 
+
+# TROUBLESHOOTING
+
+If you encounter any difficulty in running the application, such as if the following ports are already busy
+```
+0.0.0.0:8081
+```
+and 
+```
+0.0.0.0:80
+```
+modifiquelos en el fichero **docker-compose.yml**, on lines #16 and #25 respectively, and try to run the application again, by executing the command
+```
+make up
+```
