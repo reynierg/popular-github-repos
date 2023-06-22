@@ -7,7 +7,7 @@
 
 # ARCHITECTURE
 
-
+![Architecture](images/PopularReposArchitecture.drawio.png)
 
 # DESCRIPTION
 
