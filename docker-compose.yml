@@ -1,10 +1,39 @@
 services:
+  repos-redis-service:
+    image: "redis:7.0.10-bullseye"
+    networks:
+      - backend-network
+    volumes:
+      - "redis-volume:/data"
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:repos-redis-service:6379
+      - HTTP_USER=root
+      - HTTP_PASSWORD=qwerty
+    ports:
+      - 8081:8081
+    networks:
+      - backend-network
+    depends_on:
+      - repos-redis-service
+
   repos-web-service:
+    env_file:
+      - ".env"
     build: ./project
     ports:
       - "80:5000"
+    environment:
+      REDIS_URL: "redis://repos-redis-service:6379"
     networks:
       - backend-network
+    depends_on:
+      - repos-redis-service
 
 networks:
     backend-network:
+
+volumes:
+  redis-volume:
