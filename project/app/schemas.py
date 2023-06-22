@@ -20,7 +20,7 @@ class RepositorySummarySchema(BaseModel):
     private: bool = Field(title="If the repository's is private or not")
     html_url: str = Field(title="The repository's html_url")
     description: str | None = Field(title="The repository's description")
-    stargazers_count: str = Field(title="The repository's stars")
+    stargazers_count: int = Field(title="The repository's stars")
     language: str | None = Field(title="The repository's main language")
     owner: OwnerSchema | None = Field(title="The repository's owner")
     license: LicenseSchema | None = Field(title="The repository's license")
