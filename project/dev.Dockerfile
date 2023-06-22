@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.11.2-slim-buster
+FROM python:3.10-slim-buster
 
 # patch the image with the most recent security updates and bug fixes, which may have been
 # released since the image was published on Docker Hub:
