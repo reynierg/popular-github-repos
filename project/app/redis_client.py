@@ -5,7 +5,9 @@ from aioredis import Redis
 
 
 class RedisClient:
-    def __init__(self, redis_session: Redis, repos_page_ex, keys_prefix="popular-github-repos"):
+    def __init__(
+        self, redis_session: Redis, repos_page_ex, keys_prefix="popular-github-repos"
+    ):
         self._redis_session = redis_session
         self._repos_page_ex = repos_page_ex
         self._repos_list_key = f"{keys_prefix}:repos-list"
