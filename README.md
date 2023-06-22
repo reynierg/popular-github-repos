@@ -74,7 +74,7 @@ If you encounter any difficulty in running the application, such as if the follo
 ```
 0.0.0.0:8081
 ```
-y 
+and 
 ```
 0.0.0.0:80
 ```
